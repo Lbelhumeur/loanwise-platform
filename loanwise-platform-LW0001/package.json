@@ -1,0 +1,22 @@
+{
+  "name": "loanwise-platform",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": ["frontend/*", "backend/*", "packages/*"],
+  "scripts": {
+    "build": "npm run build -ws --if-present",
+    "dev": "npm run dev -w @loanwise/student-portal",
+    "lint": "npm run lint -ws --if-present",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "npm run test -ws --if-present",
+    "typecheck": "npm run typecheck -ws --if-present",
+    "validate": "npm run format:check && npm run lint && npm run typecheck && npm run test"
+  },
+  "devDependencies": {
+    "eslint": "^9.17.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {"node": ">=22"}
+}
