@@ -1,0 +1,9 @@
+{
+  "name": "@loanwise/domain",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {".": "./src/index.ts", "./tenant": "./src/tenant.ts"},
+  "scripts": {"typecheck": "tsc --noEmit"},
+  "devDependencies": {"typescript": "^5.7.2"}
+}

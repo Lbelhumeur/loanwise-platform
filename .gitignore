@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+
+# Build/test output
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# Environment/secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+backend.hcl
+*.auto.tfvars
+crash.log
+crash.*.log
+
+# Archives/backups
+*.zip
+*.7z
+*.tar
+*.tar.gz
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/*.local
+.idea/

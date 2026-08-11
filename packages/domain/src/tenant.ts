@@ -21,3 +21,5 @@ export interface Tenant {
   features: TenantFeatures;
   active: boolean;
 }
+
+export const LOANWISE_TENANT_ID = 'loanwise' as TenantId;

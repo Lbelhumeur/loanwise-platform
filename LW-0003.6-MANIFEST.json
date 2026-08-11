@@ -1,0 +1,19 @@
+{
+  "work_item": "LW-0003.6",
+  "source_archive": "loanwise-platform.zip",
+  "source_repository_root": "loanwise-platform",
+  "source_file_count": 149,
+  "canonical_rule": "Repository root is the application root",
+  "terraform_rule": "All Terraform belongs under infrastructure/",
+  "git_history_rule": "Do not rewrite existing Git history",
+  "cleanup_package_type": "incremental",
+  "actions": [
+    "Add canonical repository layout documentation",
+    "Add repository validation script",
+    "Harden .gitignore",
+    "Document canonical Terraform layout",
+    "Remove generated ZIP artifacts from future commits via .gitignore",
+    "Manually move misplaced Terraform directories into infrastructure/ before commit"
+  ],
+  "important_manual_action": "Do not use Replace-All extraction for this package; apply it to the existing working tree and move/delete only the paths documented by LW-0003.6."
+}
