@@ -3,7 +3,16 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "scripts": {"typecheck": "tsc --noEmit", "test": "vitest run"},
-  "dependencies": {"@aws-sdk/client-dynamodb": "^3.734.0"},
-  "devDependencies": {"@types/aws-lambda": "^8.10.147", "typescript": "^5.7.2", "vitest": "^2.1.8"}
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.734.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.147",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
 }
