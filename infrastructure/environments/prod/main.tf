@@ -19,16 +19,12 @@ provider "aws" {
   default_tags {
     tags = {
       Application = "LoanWiseMethod"
-      Environment = "dev"
+      Environment = "prod"
       ManagedBy   = "Terraform"
       Tenant      = "loanwise"
     }
   }
 }
 
-module "naming" {
-  source       = "../../modules/naming"
-  project_name = var.project_name
-  environment  = "dev"
-  tenant_id    = var.tenant_id
-}
+# Production will ultimately target the owner's AWS account.
+# Account IDs and credentials are intentionally not stored in source control.

@@ -19,16 +19,9 @@ provider "aws" {
   default_tags {
     tags = {
       Application = "LoanWiseMethod"
-      Environment = "dev"
+      Environment = "stage"
       ManagedBy   = "Terraform"
       Tenant      = "loanwise"
     }
   }
-}
-
-module "naming" {
-  source       = "../../modules/naming"
-  project_name = var.project_name
-  environment  = "dev"
-  tenant_id    = var.tenant_id
 }

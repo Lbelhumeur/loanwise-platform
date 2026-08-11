@@ -1,0 +1,3 @@
+bucket = "REPLACE-WITH-TERRAFORM-STATE-BUCKET"
+key    = "loanwise-platform/dev/terraform.tfstate"
+region = "us-east-1"

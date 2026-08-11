@@ -19,9 +19,13 @@ coverage/
 *.tfstate
 *.tfstate.*
 *.tfvars
+*.tfvars.json
 !*.tfvars.example
-backend.hcl
 *.auto.tfvars
+*.auto.tfvars.json
+!*.auto.tfvars.example
+backend.hcl
+!backend.hcl.example
 crash.log
 crash.*.log
 
