@@ -14,7 +14,8 @@ terraform {
 }
 
 provider "aws" {
-  region = var.aws_region
+  region              = var.aws_region
+  allowed_account_ids = [var.aws_account_id]
 
   default_tags {
     tags = {
@@ -26,5 +27,5 @@ provider "aws" {
   }
 }
 
-# Production will ultimately target the owner's AWS account.
+# Production targets the dedicated LoanWise production AWS account.
 # Account IDs and credentials are intentionally not stored in source control.

@@ -2,6 +2,8 @@
 
 Terraform is the source of truth.
 
-Environments: dev, stage, prod.
+Environments: dev, prod.
 
-Production will ultimately be deployed into the owner's AWS account after validation.
+DEV is the development and POC environment and uses synthetic data only.
+
+Production is deployed into a dedicated AWS account and contains real customer data.
