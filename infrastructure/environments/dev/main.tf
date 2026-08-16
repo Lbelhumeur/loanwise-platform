@@ -33,3 +33,13 @@ module "naming" {
   environment  = "dev"
   tenant_id    = var.tenant_id
 }
+
+module "security" {
+  source = "../../modules/security"
+
+  project_name   = var.project_name
+  environment    = "dev"
+  tenant_id      = var.tenant_id
+  aws_account_id = var.aws_account_id
+  aws_region     = var.aws_region
+}
