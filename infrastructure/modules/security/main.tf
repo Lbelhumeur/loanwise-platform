@@ -142,3 +142,16 @@ resource "aws_cloudtrail" "this" {
     Component   = "CloudTrail"
   }
 }
+
+resource "aws_guardduty_detector" "this" {
+  enable                       = true
+  finding_publishing_frequency = "SIX_HOURS"
+
+  tags = {
+    Application = "LoanWiseMethod"
+    Environment = var.environment
+    ManagedBy   = "Terraform"
+    Tenant      = var.tenant_id
+    Component   = "GuardDuty"
+  }
+}
