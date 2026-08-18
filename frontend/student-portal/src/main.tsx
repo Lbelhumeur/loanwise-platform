@@ -13,7 +13,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <BrowserRouter><App /></BrowserRouter>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </ThemeProvider>
     </QueryClientProvider>
   </React.StrictMode>,

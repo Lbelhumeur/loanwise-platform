@@ -1,11 +1,13 @@
 # Monorepo & Workspace Standard
 
 ## Workspaces
+
 - `frontend/*` — browser applications
 - `backend/*` — Lambda/API services
 - `packages/*` — reusable application libraries
 
 ## Dependency rules
+
 1. Frontends may consume shared packages.
 2. Backends may consume shared packages.
 3. Shared packages must not depend on application-specific code.

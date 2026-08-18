@@ -13,5 +13,5 @@ export const defaultLoanWiseFeatures: TenantFeatures = {
   notes: true,
   reporting: true,
   aiTutor: false,
-  discussionBoards: false
+  discussionBoards: false,
 };
