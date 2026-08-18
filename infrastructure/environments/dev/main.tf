@@ -43,3 +43,12 @@ module "security" {
   aws_account_id = var.aws_account_id
   aws_region     = var.aws_region
 }
+
+module "github_actions" {
+  source = "../../modules/github-actions"
+
+  project_name   = var.project_name
+  environment    = "dev"
+  repository     = "Lbelhumeur/loanwise-platform"
+  aws_account_id = var.aws_account_id
+}
