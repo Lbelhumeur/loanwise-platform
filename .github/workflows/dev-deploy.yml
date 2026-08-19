@@ -2,6 +2,12 @@ name: DEV Deployment
 
 on:
   workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Git ref to deploy'
+        required: true
+        default: 'LW-0004.3'
+        type: string
 
 permissions:
   contents: read
@@ -22,8 +28,10 @@ jobs:
       AWS_ACCOUNT_ID: ${{ vars.AWS_ACCOUNT_ID }}
 
     steps:
-      - name: Checkout
+      - name: Checkout selected ref
         uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
