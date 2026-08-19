@@ -1,0 +1,119 @@
+name: DEV Deployment
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: dev-deployment
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy DEV Infrastructure
+    runs-on: ubuntu-latest
+    environment: dev
+
+    env:
+      AWS_REGION: us-east-1
+      AWS_ACCOUNT_ID: ${{ vars.AWS_ACCOUNT_ID }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.10.0
+
+      - name: Configure GitHub OIDC credentials
+        uses: aws-actions/configure-aws-credentials@v6.2.3
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/loanwise-platform-dev-github-actions
+          role-session-name: GitHubActions-DEV
+          role-skip-session-tagging: true
+          allowed-account-ids: ${{ env.AWS_ACCOUNT_ID }}
+
+      - name: Verify GitHub OIDC identity
+        shell: bash
+        run: |
+          ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text)"
+          ARN="$(aws sts get-caller-identity --query Arn --output text)"
+
+          if [ "$ACCOUNT_ID" != "$AWS_ACCOUNT_ID" ]; then
+            echo "Expected AWS account $AWS_ACCOUNT_ID but received $ACCOUNT_ID"
+            exit 1
+          fi
+
+          case "$ARN" in
+            arn:aws:sts::*:assumed-role/loanwise-platform-dev-github-actions/*)
+              ;;
+            *)
+              echo "Unexpected GitHub Actions identity: $ARN"
+              exit 1
+              ;;
+          esac
+
+          echo "GitHub OIDC identity: $ARN"
+
+      - name: Assume Terraform service role
+        uses: aws-actions/configure-aws-credentials@v6.2.3
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/loanwise-platform-dev-terraform
+          role-session-name: Terraform-DEV-${{ github.run_id }}
+          role-chaining: true
+          role-skip-session-tagging: true
+          allowed-account-ids: ${{ env.AWS_ACCOUNT_ID }}
+
+      - name: Verify Terraform service identity
+        shell: bash
+        run: |
+          ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text)"
+          ARN="$(aws sts get-caller-identity --query Arn --output text)"
+
+          if [ "$ACCOUNT_ID" != "$AWS_ACCOUNT_ID" ]; then
+            echo "Expected AWS account $AWS_ACCOUNT_ID but received $ACCOUNT_ID"
+            exit 1
+          fi
+
+          case "$ARN" in
+            arn:aws:sts::*:assumed-role/loanwise-platform-dev-terraform/*)
+              ;;
+            *)
+              echo "Unexpected Terraform service identity: $ARN"
+              exit 1
+              ;;
+          esac
+
+          echo "Terraform service identity: $ARN"
+
+      - name: Initialize Terraform
+        working-directory: infrastructure/environments/dev
+        run: terraform init -input=false -backend-config=backend.hcl
+
+      - name: Terraform format check
+        run: terraform fmt -check -recursive infrastructure
+
+      - name: Terraform validate
+        working-directory: infrastructure/environments/dev
+        run: terraform validate
+
+      - name: Terraform plan
+        working-directory: infrastructure/environments/dev
+        run: terraform plan -input=false -out=tfplan
+
+      - name: Terraform apply
+        working-directory: infrastructure/environments/dev
+        run: terraform apply -input=false tfplan
+
+      - name: Remove Terraform plan
+        if: always()
+        working-directory: infrastructure/environments/dev
+        shell: bash
+        run: rm -f tfplan

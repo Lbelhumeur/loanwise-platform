@@ -16,30 +16,34 @@ terraform {
 provider "aws" {
   region              = var.aws_region
   allowed_account_ids = [var.aws_account_id]
-
-  default_tags {
-    tags = {
-      Application = "LoanWiseMethod"
-      Environment = "dev"
-      ManagedBy   = "Terraform"
-      Tenant      = "loanwise"
-    }
-  }
 }
 
-module "naming" {
-  source       = "../../modules/naming"
-  project_name = var.project_name
-  environment  = "dev"
-  tenant_id    = var.tenant_id
-}
-
-module "security" {
-  source = "../../modules/security"
+module "github_actions" {
+  source = "../../modules/github-actions"
 
   project_name   = var.project_name
   environment    = "dev"
-  tenant_id      = var.tenant_id
+  repository     = var.repository
   aws_account_id = var.aws_account_id
   aws_region     = var.aws_region
+}
+
+variable "aws_region" {
+  type    = string
+  default = "us-east-1"
+}
+
+variable "aws_account_id" {
+  type      = string
+  sensitive = true
+}
+
+variable "project_name" {
+  type    = string
+  default = "loanwise-platform"
+}
+
+variable "repository" {
+  type    = string
+  default = "Lbelhumeur/loanwise-platform"
 }

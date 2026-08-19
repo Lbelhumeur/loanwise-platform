@@ -69,3 +69,45 @@ resource "aws_iam_role" "github_actions" {
     Component   = "GitHubActionsDeployment"
   }
 }
+
+data "aws_iam_policy_document" "terraform_assume_role" {
+  statement {
+    sid     = "GitHubActionsCanAssumeTerraform"
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+
+    resources = [
+      aws_iam_role.terraform.arn
+    ]
+  }
+}
+
+resource "aws_iam_role" "terraform" {
+  name = "${var.project_name}-${var.environment}-terraform"
+
+  assume_role_policy = data.aws_iam_policy_document.terraform_trust.json
+
+  tags = {
+    Application = "LoanWiseMethod"
+    Environment = var.environment
+    ManagedBy   = "Terraform"
+    Tenant      = "loanwise"
+    Component   = "TerraformServiceRole"
+  }
+}
+
+data "aws_iam_policy_document" "terraform_trust" {
+  statement {
+    sid     = "GitHubActionsAssumeTerraform"
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type = "AWS"
+
+      identifiers = [
+        aws_iam_role.github_actions.arn
+      ]
+    }
+  }
+}
