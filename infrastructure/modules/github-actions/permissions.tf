@@ -79,9 +79,9 @@ data "aws_iam_policy_document" "terraform_service" {
       "cloudtrail:UpdateTrail"
     ]
 
-    resources = [
-      "arn:aws:cloudtrail:${var.aws_region}:${var.aws_account_id}:trail/${var.project_name}-${var.environment}"
-    ]
+    # CloudTrail control-plane actions do not support resource-level IAM.
+    # Keep the permitted action list narrow instead of granting cloudtrail:*.
+    resources = ["*"]
   }
 
   statement {
