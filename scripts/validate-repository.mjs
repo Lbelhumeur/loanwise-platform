@@ -7,7 +7,7 @@ const required = [
   'backend',
   'packages',
   'infrastructure',
-  'docs'
+  'docs',
 ];
 
 for (const path of required) {

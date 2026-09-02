@@ -40,3 +40,4 @@ crash.*.log
 Thumbs.db
 .vscode/*.local
 .idea/
+**/tfplan
