@@ -21,11 +21,13 @@ provider "aws" {
 module "github_actions" {
   source = "../../modules/github-actions"
 
-  project_name   = var.project_name
-  environment    = "dev"
-  repository     = var.repository
-  aws_account_id = var.aws_account_id
-  aws_region     = var.aws_region
+  project_name         = var.project_name
+  environment          = "dev"
+  repository           = var.repository
+  github_owner_id      = var.github_owner_id
+  github_repository_id = var.github_repository_id
+  aws_account_id       = var.aws_account_id
+  aws_region           = var.aws_region
 }
 
 variable "aws_region" {
@@ -46,4 +48,14 @@ variable "project_name" {
 variable "repository" {
   type    = string
   default = "Lbelhumeur/loanwise-platform"
+}
+
+variable "github_owner_id" {
+  type    = string
+  default = "181027537"
+}
+
+variable "github_repository_id" {
+  type    = string
+  default = "1322285819"
 }

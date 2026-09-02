@@ -18,3 +18,11 @@ variable "aws_account_id" {
 variable "aws_region" {
   type = string
 }
+
+variable "github_owner_id" {
+  type = string
+}
+
+variable "github_repository_id" {
+  type = string
+}
